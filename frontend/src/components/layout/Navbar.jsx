@@ -18,22 +18,25 @@ const Navbar = () => {
 
                     {/* Center: Desktop Nav */}
                     <div className="hidden md:flex items-center space-x-8">
-                        <span className="text-gray-900 font-semibold text-[15px] cursor-pointer hover:text-blue-600 transition-colors">Platform</span>
-                        <span className="text-gray-900 font-semibold text-[15px] cursor-pointer hover:text-blue-600 transition-colors">Solutions</span>
-                        <span className="text-gray-900 font-semibold text-[15px] cursor-pointer hover:text-blue-600 transition-colors">Pricing</span>
+                        <span className="text-gray-900 font-bold text-[15px] cursor-pointer text-blue-600 border-b-2 border-blue-600 pb-1">Dashboard</span>
+                        <span className="text-gray-500 font-semibold text-[15px] cursor-pointer hover:text-gray-900 transition-colors pb-1">Analytics</span>
+                        <span className="text-gray-500 font-semibold text-[15px] cursor-pointer hover:text-gray-900 transition-colors pb-1">Settings</span>
                     </div>
 
-                    {/* Right: Actions */}
+                    {/* Right: User Profile & Actions */}
                     <div className="hidden md:flex items-center gap-4">
-                        <span className="text-gray-900 font-semibold text-[15px] cursor-pointer hover:text-blue-600 transition-colors mr-2">Log in</span>
-                        <button className="px-5 py-2.5 bg-blue-100 hover:bg-blue-200 text-blue-700 font-bold text-[15px] rounded-lg transition-colors">
-                            Get a Quote
-                        </button>
-                        <button className="px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-bold text-[15px] rounded-lg transition-colors shadow-sm">
-                            Sign up Free
-                        </button>
-                        <button onClick={logout} className="ml-2 p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-full transition-colors" title="Logout">
-                            <LogOut className="h-5 w-5" />
+                        <div className="flex items-center gap-3 mr-2">
+                            <div className="flex flex-col text-right">
+                                <span className="text-[14px] font-bold text-gray-900">{user?.name || 'User'}</span>
+                                <span className="text-[12px] text-gray-500 font-medium">Free Plan</span>
+                            </div>
+                            <div className="h-10 w-10 rounded-full bg-blue-100 border border-blue-200 flex items-center justify-center text-blue-700 font-extrabold text-[16px] shadow-sm">
+                                {user?.name?.charAt(0).toUpperCase() || 'U'}
+                            </div>
+                        </div>
+                        <div className="h-8 w-[1px] bg-gray-200 mx-1"></div>
+                        <button onClick={logout} className="p-2.5 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-full transition-all duration-200" title="Logout">
+                            <LogOut className="h-[22px] w-[22px]" />
                         </button>
                     </div>
 
@@ -53,9 +56,9 @@ const Navbar = () => {
             {isMenuOpen && (
                 <div className="md:hidden bg-white border-b border-gray-100">
                     <div className="px-4 py-3 space-y-1">
-                        <a href="#dashboard" className="block px-3 py-2 rounded-md text-base font-semibold text-gray-900 bg-gray-50">Platform</a>
-                        <a href="#solutions" className="block px-3 py-2 rounded-md text-base font-semibold text-gray-900 hover:bg-gray-50">Solutions</a>
-                        <a href="#pricing" className="block px-3 py-2 rounded-md text-base font-semibold text-gray-900 hover:bg-gray-50">Pricing</a>
+                        <a href="#dashboard" className="block px-3 py-2 rounded-md text-base font-bold text-blue-600 bg-blue-50">Dashboard</a>
+                        <a href="#analytics" className="block px-3 py-2 rounded-md text-base font-semibold text-gray-700 hover:bg-gray-50">Analytics</a>
+                        <a href="#settings" className="block px-3 py-2 rounded-md text-base font-semibold text-gray-700 hover:bg-gray-50">Settings</a>
                     </div>
                     <div className="pt-4 pb-4 border-t border-gray-100">
                         <div className="flex items-center px-5 gap-3">
