@@ -40,8 +40,7 @@ Thumbs.db
 .eslintcache
 .stylelintcache
 
-# Docker
-docker-compose.override.yml
+
 
 # Markdown Files
 *.md

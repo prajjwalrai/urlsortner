@@ -11,7 +11,7 @@ QuickLink is a production-inspired, medium-complexity URL Shortener built with t
 - **Rate Limiting**: Limits IP addresses to 100 requests per 15 minutes.
 - **Dashboard**: Simple, clean, and modern React interface with Tailwind CSS. Includes Dark Mode.
 - **Search & QR Code**: Instantly search URLs and generate QR Codes for easy sharing.
-- **Dockerized**: Fully containerized with Docker and Docker Compose for easy deployment.
+- **Deployment Ready**: Optimized for deploying frontend to Vercel and backend to Render.
 
 ## Folder Structure
 
@@ -30,25 +30,13 @@ QuickLink is a production-inspired, medium-complexity URL Shortener built with t
 │   │   ├── context/
 │   │   ├── pages/
 │   │   └── services/
-├── docker-compose.yml
+
 └── README.md
 ```
 
 ## Installation
 
-You can run this project locally using `npm` or `Docker`.
-
-### Option 1: Docker (Recommended)
-
-1. Ensure Docker Desktop is running.
-2. Run the following command from the root directory:
-   ```bash
-   docker-compose up --build
-   ```
-3. The Backend will run on `http://localhost:5000`
-4. The Frontend will run on `http://localhost:5173`
-
-### Option 2: Local (npm)
+### Local Setup (npm)
 
 1. Ensure MongoDB and Redis are running locally.
 2. **Backend**:
@@ -74,6 +62,23 @@ MONGO_URI=mongodb://localhost:27017/quicklink
 REDIS_URI=redis://localhost:6379
 JWT_SECRET=yoursupersecretkey
 ```
+
+## Deployment
+
+### Deploying Backend (Render)
+1. Push your code to a GitHub repository.
+2. On Render, create a new **Web Service** and connect your repository.
+3. Set the Root Directory to `backend` (if you are deploying from a monorepo, or just deploy the backend folder).
+4. Build Command: `npm install`
+5. Start Command: `npm start`
+6. Add your Environment Variables (`MONGO_URI`, `REDIS_URI`, `JWT_SECRET`). Note: You will need a hosted MongoDB (like MongoDB Atlas) and a hosted Redis (like Upstash or Render Redis).
+
+### Deploying Frontend (Vercel)
+1. Import your GitHub repository to Vercel.
+2. Set the Framework Preset to **Vite**.
+3. Set the Root Directory to `frontend`.
+4. Add the Environment Variable `VITE_API_URL` and set it to your deployed Render backend URL (e.g., `https://your-backend.onrender.com`).
+5. Click **Deploy**.
 
 ## API Documentation
 
