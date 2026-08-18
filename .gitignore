@@ -45,3 +45,6 @@ docker-compose.override.yml
 
 # Markdown Files
 *.md
+
+# YAML Files
+*.yml
