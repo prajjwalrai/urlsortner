@@ -13,6 +13,9 @@ const Landing = () => {
     const [error, setError] = useState('');
     const [copiedMap, setCopiedMap] = useState({});
 
+    const rawApiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+    const API_URL = rawApiUrl.replace(/\/$/, '');
+
     useEffect(() => {
         const savedLinks = localStorage.getItem('guestRecentLinks');
         if (savedLinks) {
@@ -35,7 +38,7 @@ const Landing = () => {
         setIsLoading(true);
 
         try {
-            const response = await axios.post('http://localhost:5000/api/urls/public/create', {
+            const response = await axios.post(`${API_URL}/api/urls/public/create`, {
                 originalUrl: longUrl,
                 customAlias: alias || undefined
             });
@@ -55,7 +58,7 @@ const Landing = () => {
     };
 
     const copyToClipboard = (shortCode) => {
-        const url = `${window.location.origin}/${shortCode}`;
+        const url = `${API_URL}/${shortCode}`;
         navigator.clipboard.writeText(url);
         setCopiedMap(prev => ({ ...prev, [shortCode]: true }));
         setTimeout(() => {
@@ -126,8 +129,8 @@ const Landing = () => {
                                         {recentLinks.map((link) => (
                                             <div key={link._id} className="bg-white rounded p-4 flex items-center justify-between shadow-sm border border-slate-200">
                                                 <div className="truncate pr-4 flex-1">
-                                                    <a href={`/${link.shortCode}`} target="_blank" rel="noopener noreferrer" className="text-[#1a8599] font-bold text-[15px] hover:underline block truncate">
-                                                        {window.location.origin.replace(/^https?:\/\//, '')}/{link.shortCode}
+                                                    <a href={`${API_URL}/${link.shortCode}`} target="_blank" rel="noopener noreferrer" className="text-[#1a8599] font-bold text-[15px] hover:underline block truncate">
+                                                        {API_URL.replace(/^https?:\/\//, '')}/{link.shortCode}
                                                     </a>
                                                     <p className="text-slate-500 text-xs truncate mt-1">{link.originalUrl}</p>
                                                 </div>

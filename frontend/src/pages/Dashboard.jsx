@@ -18,7 +18,8 @@ const Dashboard = () => {
     const [qrModal, setQrModal] = useState({ isOpen: false, url: '', shortCode: '' });
     
     const { addToast } = useToast();
-    const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+    const rawApiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+    const API_URL = rawApiUrl.replace(/\/$/, '');
 
     useEffect(() => {
         loadUrls();
