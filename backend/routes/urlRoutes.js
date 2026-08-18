@@ -1,7 +1,9 @@
 const express = require('express');
 const router = express.Router();
-const { createUrl, getUrls, searchUrls, deleteUrl } = require('../controllers/urlController');
+const { createUrl, createPublicUrl, getUrls, searchUrls, deleteUrl } = require('../controllers/urlController');
 const { protect } = require('../middlewares/authMiddleware');
+
+router.post('/public/create', createPublicUrl);
 
 router.use(protect);
 

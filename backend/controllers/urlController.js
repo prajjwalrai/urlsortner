@@ -52,6 +52,66 @@ const createUrl = async (req, res, next) => {
     }
 };
 
+// @desc    Create short URL (Public)
+// @route   POST /url/public/create
+// @access  Public
+const createPublicUrl = async (req, res, next) => {
+    try {
+        const { originalUrl, customAlias } = req.body;
+
+        if (!originalUrl) {
+            return res.status(400).json(formatResponse(false, 'Please provide an original URL'));
+        }
+
+        // Validate URL
+        try {
+            new URL(originalUrl);
+        } catch (err) {
+            return res.status(400).json(formatResponse(false, 'Invalid URL format'));
+        }
+
+        let shortCode;
+        let isUnique = false;
+
+        // Ensure unique short code
+        if (customAlias) {
+            if (customAlias.length < 5) {
+                return res.status(400).json(formatResponse(false, 'Alias must be at least 5 characters'));
+            }
+            const existing = await Url.findOne({ shortCode: customAlias });
+            if (existing) {
+                return res.status(400).json(formatResponse(false, 'Alias already in use'));
+            }
+            shortCode = customAlias;
+            isUnique = true;
+        }
+
+        while (!isUnique) {
+            shortCode = nanoid(7);
+            const existing = await Url.findOne({ shortCode });
+            if (!existing) isUnique = true;
+        }
+
+        const url = await Url.create({
+            originalUrl,
+            shortCode
+        });
+
+        // Add to cache
+        try {
+            if (client.isReady) {
+                await client.setEx(`url:${shortCode}`, 3600, JSON.stringify(url));
+            }
+        } catch (err) {
+            console.warn('Redis cache skip:', err.message);
+        }
+
+        res.status(201).json(formatResponse(true, 'URL shortened successfully', url));
+    } catch (error) {
+        next(error);
+    }
+};
+
 // @desc    Get all URLs for user
 // @route   GET /url/all
 // @access  Private
@@ -188,6 +248,7 @@ const redirectUrl = async (req, res, next) => {
 
 module.exports = {
     createUrl,
+    createPublicUrl,
     getUrls,
     searchUrls,
     deleteUrl,
